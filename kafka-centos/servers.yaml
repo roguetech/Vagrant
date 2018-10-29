@@ -1,0 +1,19 @@
+---
+- name: kfk1
+  box: bento/centos-7.2
+  cpus: 2
+  ram: 2048
+  ip: 10.50.1.11
+  port: 10122
+- name: kfk2
+  box: bento/centos-7.2
+  cpus: 2
+  ram: 2048
+  ip: 10.50.1.12
+  port: 10222
+- name: kfk3
+  box: bento/centos-7.2
+  cpus: 2
+  ram: 2048
+  ip: 10.50.1.13
+  port: 10322
