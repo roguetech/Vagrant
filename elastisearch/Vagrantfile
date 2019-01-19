@@ -1,0 +1,53 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  
+ config.vm.define "els001" do |centos|
+	centos.vm.hostname = "els001"
+	centos.vm.box = "bento/centos-7.5"
+	centos.vm.network "public_network", ip: "10.10.3.10"
+	centos.vm.network "public_network", bridge: "enp0s31f6"
+	centos.vm.network :forwarded_port, guest: 9200, host: 9200
+	centos.vm.network :forwarded_port, guest: 5601, host: 5601
+	centos.vm.provision :shell, :path => "elasticbootstrap.sh"
+	centos.vm.provision :shell, :path => "plugins.sh"
+	centos.vm.provider :virtualbox do |v|
+		v.name = "els001"
+		v.memory = 3072
+		v.cpus = 2
+	end
+ end
+
+config.vm.define "els002" do |centos|
+        centos.vm.hostname = "els002"
+        centos.vm.box = "bento/centos-7.5"
+        centos.vm.network "public_network", ip: "10.10.3.11"
+        centos.vm.network "public_network", bridge: "enp0s31f6"
+	centos.vm.network :forwarded_port, guest: 9200, host: 9201
+        centos.vm.network :forwarded_port, guest: 5601, host: 5602
+        centos.vm.provision :shell, :path => "elasticbootstrap.sh"
+        centos.vm.provision :shell, :path => "plugins.sh"
+        centos.vm.provider :virtualbox do |v|
+                v.name = "els002"
+                v.memory = 3072
+                v.cpus = 2
+        end
+ end
+
+config.vm.define "els003" do |centos|
+        centos.vm.hostname = "els003"
+        centos.vm.box = "bento/centos-7.5"
+        centos.vm.network "public_network", ip: "10.10.3.12"
+        centos.vm.network "public_network", bridge: "enp0s31f6"
+        centos.vm.network :forwarded_port, guest: 9200, host: 9203
+        centos.vm.network :forwarded_port, guest: 5601, host: 5604
+        centos.vm.provision :shell, :path => "elasticbootstrap.sh"
+        centos.vm.provision :shell, :path => "plugins.sh"
+        centos.vm.provider :virtualbox do |v|
+                v.name = "els003"
+                v.memory = 3072
+                v.cpus = 2
+        end
+ end
+end
