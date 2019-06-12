@@ -15,9 +15,9 @@ sudo yum -y install java-1.8.0-openjdk.x86_64
 sudo rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
 
 # create the elasticsearch yum repo
-echo '[elasticsearch-5.x]
-name=Elasticsearch repository for 5.x packages
-baseurl=https://artifacts.elastic.co/packages/5.x/yum
+echo '[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
@@ -39,39 +39,39 @@ mkdir -p /datastore/elasticsearch
 chown -R elasticsearch:elasticsearch /datastore/elasticsearch
 
 # allow host OS to access through port forwarding
-sudo echo "
-transport.ping_schedule: 5s
-discovery.zen.ping.unicast.hosts: [els001,els002,els003]
-discovery.zen.minimum_master_nodes: 1
-gateway.recover_after_nodes: 1
-gateway.expected_nodes: 2
-gateway.recover_after_time: 5m
-network.bind_host: 0
-network.host: 0.0.0.0
-bootstrap.memory_lock: true
-bootstrap.system_call_filter: false
-path:
-  logs: /var/log/elasticsearch
-  data: /datastore/elasticsearch
-#  repo: /repo" >> /etc/elasticsearch/elasticsearch.yml
-sudo sed -i -e '$a\' /etc/elasticsearch/elasticsearch.yml
-sudo sed -i -e '$a\' /etc/elasticsearch/elasticsearch.yml
+#sudo echo "
+#transport.ping_schedule: 5s
+#discovery.zen.ping.unicast.hosts: [els001,els002,els003]
+#discovery.zen.minimum_master_nodes: 1
+#gateway.recover_after_nodes: 1
+#gateway.expected_nodes: 2
+#gateway.recover_after_time: 5m
+#network.bind_host: 0
+#network.host: 0.0.0.0
+#bootstrap.memory_lock: true
+#bootstrap.system_call_filter: false
+#path:
+#  logs: /var/log/elasticsearch
+#  data: /datastore/elasticsearch
+#  repo: /repo" > /etc/elasticsearch/elasticsearch.yml
+#sudo sed -i -e '$a\' /etc/elasticsearch/elasticsearch.yml
+#sudo sed -i -e '$a\' /etc/elasticsearch/elasticsearch.yml
 
-mkdir /etc/systemd/system/elasticsearch.service.d
+#mkdir /etc/systemd/system/elasticsearch.service.d
 
-sudo echo "
-[Service]
-LimitMEMLOCK=infinity
-LimitNPROC=4096
-LimitNOFILE=65536" >> /etc/systemd/system/elasticsearch.service.d/elasticsearch.conf
+#sudo echo "
+#[Service]
+#LimitMEMLOCK=infinity
+#LimitNPROC=4096
+#LimitNOFILE=65536" >> /etc/systemd/system/elasticsearch.service.d/elasticsearch.conf
 
-sudo echo "
-elasticsearch  -  nofile  65536" >> /etc/security/limits.conf
+#sudo echo "
+#elasticsearch  -  nofile  65536" >> /etc/security/limits.conf
 
 # create the kibana repo
-echo '[kibana-5.x]
-name=Kibana repository for 5.x packages
-baseurl=https://artifacts.elastic.co/packages/5.x/yum
+echo '[kibana-7.x]
+name=Kibana repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
@@ -81,10 +81,13 @@ type=rpm-md' | sudo tee /etc/yum.repos.d/kibana.repo
 # install kibana
 sudo yum -y install kibana
 
+chown -R kibana:kibana /usr/share/kibana
+chown -R kibana:kibana /etc/kibana
+
 echo '
 server.host: "0.0.0.0"
 server.port: 5601
-elasticsearch.url: "http://localhost:9200"
+elasticsearch.hosts: "http://localhost:9200"
 logging.dest: /var/log/kibana.log' >> /etc/kibana/kibana.yml
 
 #start kibana on boot

@@ -4,7 +4,7 @@
 # install marvel
 #sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install license
 #sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install marvel-agent
-sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+#sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
 
 # install watcher
 #sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install watcher
@@ -16,7 +16,7 @@ sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
 #sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-phonetic
 
 #create user
-/usr/share/elasticsearch/bin/x-pack/users useradd test -p test123 -r superuser
+#/usr/share/elasticsearch/bin/x-pack/users useradd test -p test123 -r superuser
 echo 'elasticsearch.username: "test"' >> /etc/kibana/kibana.yml
 echo 'elasticsearch.password:  "test123"' >> /etc/kibana/kibana.yml
 

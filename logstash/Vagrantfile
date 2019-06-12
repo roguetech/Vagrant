@@ -1,0 +1,3 @@
+
+
+config.vm.synced_folder "/path/to/share/"' "/vagrant_share"
