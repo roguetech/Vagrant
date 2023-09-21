@@ -47,6 +47,12 @@ P_RETVAL=$?
 && unzip -o packer_${PACKER_VERSION}_linux_amd64.zip -d /usr/local/bin \
 && rm packer_${PACKER_VERSION}_linux_amd64.zip
 
+# Kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+
 # clean up
 if [ ! ${REDHAT_BASED} ] ; then
   apt-get clean
